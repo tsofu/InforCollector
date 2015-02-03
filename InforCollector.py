@@ -112,11 +112,27 @@ def main():
     # work path
     run_workpath = os.getcwd()
 
-    prefix           = loadPrefixfromExefile(run_workpath)
-    file_name        = makeFileName(prefix)
+    print("Step1 : loadPrefixfromExefile() before")
+    print("Step1 : input run_workpath : " + run_workpath)
+    prefix = loadPrefixfromExefile(run_workpath)
+    print("Step1 : result prefix : " + prefix)
+    print("Step1 : loadPrefixfromExefile() after")
+
+    print("Step2 : makeFileName() before")
+    print("Step2 : input prefix : " + prefix)
+    file_name = makeFileName(prefix)
+    print("Step2 : result file_name : " + file_name)
+    print("Step2 : makeFileName() after")
+
+
     output_file_name = desktop_path + "\\" + file_name
 
+    print("Step3 : collectFileToZipfile() before")
+    print("Step3 : input run_exepath : " + run_exepath)
+    print("Step3 : input run_workpath : " + run_workpath)
+    print("Step3 : input output_file_name : " + output_file_name)
     collectFileToZipfile(run_exepath, run_workpath, output_file_name)
+    print("Step3 : collectFileToZipfile() after")
 
     print("End to collect logfiles ----- [END]")
     print("================================================================")
