@@ -16,7 +16,7 @@ import time
 import os
 from xml.etree.ElementTree import ElementTree
 
-g_config_file        = "\\iConfig.xml"
+g_config_file        = "\\InforCollectorConfig.xml"
 g_clairview_server   = "\\ClairviewS.exe"
 g_clairview_iserver  = "\\ClairviewISP.exe"
 g_clairview_sclient  = "\\ClairviewSC.exe"
@@ -25,6 +25,21 @@ def subStr(str, start, end):
     return str[start:end+1]
 
 ################################################################################
+
+################################################################################
+# def checkWorkPath():
+################################################################################
+def checkWorkPath(run_workpath):
+    if True == os.path.isfile(run_workpath + g_clairview_server):
+        isExist = True
+    elif True == os.path.isfile(run_workpath + g_clairview_iserver):
+        isExist = True
+    elif True == os.path.isfile(run_workpath + g_clairview_sclient):
+        isExist = True
+    else:
+        isExist = False
+
+    return isExist
 
 
 ################################################################################
@@ -112,9 +127,16 @@ def main():
     # work path
     run_workpath = os.getcwd()
 
+    if False == checkWorkPath(run_exepath):
+        print("[Error] Execute exe file in Workpath(Install path) :" + run_exepath)
+        os.system("pause")
+        return
+    else:
+        print("[Success] Execute exe file in Workpath(Install path) :" + run_exepath)
+
     print("Step1 : loadPrefixfromExefile() before")
-    print("Step1 : input run_workpath : " + run_workpath)
-    prefix = loadPrefixfromExefile(run_workpath)
+    print("Step1 : input run_workpath : " + run_exepath)
+    prefix = loadPrefixfromExefile(run_exepath)
     print("Step1 : result prefix : " + prefix)
     print("Step1 : loadPrefixfromExefile() after")
 
