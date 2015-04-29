@@ -1,5 +1,10 @@
 <ServerLogInfo>
    <logitem>
-      <item>TestAAA</item>
+      <item>Configurations</item>
+      <item>Dumps</item>
+      <item>Log</item>
+      <item>MonitorLog</item>
+      <item>Options</item>
+      <item>System</item>
    </logitem>
 </ServerLogInfo>

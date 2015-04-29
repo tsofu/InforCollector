@@ -16,10 +16,11 @@ import time
 import os
 from xml.etree.ElementTree import ElementTree
 
-g_config_file        = "\\InforCollectorConfig.xml"
-g_clairview_server   = "\\ClairviewS.exe"
-g_clairview_iserver  = "\\ClairviewISP.exe"
-g_clairview_sclient  = "\\ClairviewSC.exe"
+g_config_file          = "\\InforCollectorConfig.xml"
+g_clairview_server     = "\\ClairviewS.exe"
+g_clairview_iserver    = "\\ClairviewISP.exe"
+g_clairview_sclient    = "\\ClairviewSC.exe"
+g_clairview_NVRClient  = "\\NVRClient.exe"
 
 def subStr(str, start, end):
     return str[start:end+1]
@@ -35,6 +36,8 @@ def checkWorkPath(run_workpath):
     elif True == os.path.isfile(run_workpath + g_clairview_iserver):
         isExist = True
     elif True == os.path.isfile(run_workpath + g_clairview_sclient):
+        isExist = True
+    elif True == os.path.isfile(run_workpath + g_clairview_NVRClient):
         isExist = True
     else:
         isExist = False
@@ -52,6 +55,8 @@ def loadPrefixfromExefile(run_workpath):
         prefix = "[ClairviewVMS]IntegrationServer"
     elif True == os.path.isfile(run_workpath + g_clairview_sclient):
         prefix = "[ClairviewVMS]SmartClient"
+    elif True == os.path.isfile(run_workpath + g_clairview_NVRClient):
+        prefix = "[ClairviewNVR]NVR"
     else:
         prefix = "[ClairviewVMS]Clairview"
 
@@ -67,7 +72,7 @@ def loadItemfromXmlfile(run_exepath, run_workpath):
     root = tree.getroot()
     list_items = []
     for child in root.iter("item"):
-        list_items.append(run_workpath + "\\" + child.text)
+        list_items.append(run_exepath + "\\" + child.text)
         print("item : " + child.text)
 
     return list_items
@@ -99,12 +104,12 @@ def collectFileToZipfile(run_exepath, run_workpath, output_file_name):
 #    if (False == is_check):
 #        print("Don't search folder, please check folder")
 #        return
-
     print("ZipFile Infor : " + output_file_name)
     f = zipfile.ZipFile(output_file_name, 'w', zipfile.ZIP_DEFLATED, True)
 
     for item_log_folder in list_items:
         start_dir = item_log_folder
+        start_dir += "\\"
         for dir_path, dir_name, list_file_names in os.walk(start_dir):
             for file_name in list_file_names:
                 f.write(os.path.join(dir_path, file_name))

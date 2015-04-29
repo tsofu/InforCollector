@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Zeus><Configuration Version="1"><RecStorage RecMode="2" TimeSyncMode="2" RemovedVolumeMode="3" ForceVolumeSet="0" TimelineCaching="1"><OnceEnd UseAlarmOut="0" AlarmOutId="{00000000-0000-0000-0000-000000000000}" AlarmOutDwellTime="0"/><CommonTimeRetention TimeRetention="0" RetentionTime="0"/><TimeRetentions/></RecStorage></Configuration></Zeus>

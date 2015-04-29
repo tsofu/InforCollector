@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Zeus><Configuration Version="1"><Failover Enable="0" DeviceRegisterOnFailure="0"><HBMessage Period="5" HighWaterMark="10"/></Failover></Configuration></Zeus>

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Zeus><Configuration Version="1"><Resources><RecServer ServerId="{0DC77DC3-C79E-4EB6-8BFC-23398A83E9CB}" ServerName="Local Recording Server" PluginId="{1CE0F0BE-E21A-4514-8EF5-FFD1C2CEF9DF}" Address="127.0.0.1" Port="20119" UserId="root" UserPassword="IT0s/cso2//4fNYABFjF190MWAB2lyTXpEc0uQjH011Qinb/SzR+bBsK99CArRSl"/><DevServer ServerId="{39560F40-092B-43FC-ACF6-89399B831A51}" ServerName="Local Device Server" Address="127.0.0.1" Port="20122"/></Resources></Configuration></Zeus>

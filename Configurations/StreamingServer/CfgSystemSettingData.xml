@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Zeus><Configuration Version="1"><SystemSetting><Log><Repository></Repository><RetentionTime>0</RetentionTime></Log><Reboot AutoReboot="0"><RebootDayRule Year="0" Month="0" Day="0" RepeatType="0" RepeatTimes="0" StartType="0" EndType="0" StartYear="0" StartMonth="0" StartDay="0" EndYear="0" EndMonth="0" EndDay="0" DurationTimes="0" Flags="0"/><RebootTime Hour="0" Minute="0" Second="0"/></Reboot><IMSServerMonitoringAgent Run="0"/></SystemSetting></Configuration></Zeus>
