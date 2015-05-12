@@ -17,7 +17,7 @@ import os
 from xml.etree.ElementTree import ElementTree
 
 # exefile path
-g_config_file          = "\\InforCollectorConfig.xml"
+g_config_file                  = "\\InforCollectorConfig.xml"
 g_exefile_clairview_server     = "\\ClairviewS.exe"
 g_exefile_clairview_iserver    = "\\ClairviewISP.exe"
 g_exefile_clairview_sclient    = "\\ClairviewSC.exe"
@@ -33,6 +33,11 @@ g_pro_clairview_sclient_pro = "\\Clairview Smart Client Pro"
 g_pro_clairview_nvr         = "\\Clairview NVR"
 g_pro_clairview_cms         = "\\ClairviewCMS"
 
+#define
+g_clairview_vms = 1
+g_clairview_nvr = 2
+g_clairview_cms = 3
+
 
 def subStr(str, start, end):
     return str[start:end+1]
@@ -43,6 +48,7 @@ def subStr(str, start, end):
 # def checkWorkPath():
 ################################################################################
 def checkWorkPath(run_workpath):
+    isExist = False
     if True == os.path.isfile(run_workpath + g_exefile_clairview_server):
         isExist = True
     elif True == os.path.isfile(run_workpath + g_exefile_clairview_iserver):
@@ -59,21 +65,28 @@ def checkWorkPath(run_workpath):
     return isExist
 
 ################################################################################
-# def checkProjectPath():
+# def checkProjectPath(project, run_workpath):
 ################################################################################
-def checkProjectPath(run_workpath):
-    if True == os.path.isdir(run_workpath + g_pro_clairview_server):
-        isExist = True
-    elif True == os.path.isdir(run_workpath + g_pro_clairview_iserver):
-        isExist = True
-    elif True == os.path.isdir(run_workpath + g_pro_clairview_sclient):
-        isExist = True
-    elif True == os.path.isdir(run_workpath + g_pro_clairview_sclient_pro):
-        isExist = True
-    elif True == os.path.isdir(run_workpath + g_pro_clairview_nvr):
-        isExist = True
-    elif True == os.path.isdir(run_workpath + g_pro_clairview_cms):
-        isExist = True
+def checkProjectPath(project, run_workpath):
+    isExist = False
+    # vms project
+    if project == g_clairview_vms:
+        if True == os.path.isdir(run_workpath + g_pro_clairview_server):
+            isExist = True
+        elif True == os.path.isdir(run_workpath + g_pro_clairview_iserver):
+            isExist = True
+        elif True == os.path.isdir(run_workpath + g_pro_clairview_sclient):
+            isExist = True
+        elif True == os.path.isdir(run_workpath + g_pro_clairview_sclient_pro):
+            isExist = True
+    # nvr project
+    elif project == g_clairview_nvr:
+        if True == os.path.isdir(run_workpath + g_pro_clairview_nvr):
+            isExist = True
+    # cms project
+    elif project == g_clairview_cms:
+        if True == os.path.isdir(run_workpath + g_pro_clairview_cms):
+            isExist = True
     else:
         isExist = False
 
@@ -84,6 +97,7 @@ def checkProjectPath(run_workpath):
 # def loadPrefixfromExefile(run_workpath):
 ################################################################################
 def loadPrefixfromExefile(run_workpath):
+    prefix = ""
     if True == os.path.isfile(run_workpath + g_exefile_clairview_server):
         prefix = "[ClairviewVMS]Server"
     elif True == os.path.isfile(run_workpath + g_exefile_clairview_iserver):
@@ -102,18 +116,15 @@ def loadPrefixfromExefile(run_workpath):
     return prefix
 
 ################################################################################
-# def loadPrefixfromProject(run_workpath):
+# def loadPrefixfromProject(project, run_workpath):
 ################################################################################
-def loadPrefixfromProject(run_workpath):
-    if True == os.path.isdir(run_workpath + g_pro_clairview_server):
+def loadPrefixfromProject(project, run_workpath):
+    prefix = ""
+    if project == g_clairview_vms:
         prefix = "[ClairviewVMS]"
-    elif True == os.path.isdir(run_workpath + g_pro_clairview_iserver):
-        prefix = "[ClairviewVMS]"
-    elif True == os.path.isdir(run_workpath + g_pro_clairview_sclient):
-        prefix = "[ClairviewVMS]"
-    elif True == os.path.isdir(run_workpath + g_pro_clairview_nvr):
+    elif project == g_clairview_nvr:
         prefix = "[ClairviewNVR]"
-    elif True == os.path.isdir(run_workpath + g_pro_clairview_cms):
+    elif project == g_clairview_cms:
         prefix = "[ClairviewCMS]"
     else:
         prefix = "[Clairview]"
@@ -124,14 +135,33 @@ def loadPrefixfromProject(run_workpath):
 ################################################################################
 # def loadItemfromXmlfile(run_exepath):
 ################################################################################
-def loadItemfromXmlfile(run_exepath, run_workpath):
+def loadItemfromXmlfile(run_exepath):
+    list_items = []
     tree = ElementTree()
     tree.parse(run_exepath + g_config_file)
     root = tree.getroot()
-    list_items = []
     for child in root.iter("item"):
         list_items.append(run_exepath + "\\" + child.text)
         print("item : " + child.text)
+
+    return list_items
+
+################################################################################
+# def loadItemfromProject(run_exepath, project):
+################################################################################
+def loadItemfromProject(run_exepath, project):
+    list_items = []
+    if project == g_clairview_vms:
+        list_items.append(run_exepath + "\\" + "Clairview Integration Server Professional")
+        list_items.append(run_exepath + "\\" + "Clairview Server")
+        list_items.append(run_exepath + "\\" + "Clairview Smart Client")
+        list_items.append(run_exepath + "\\" + "Clairview Smart Client Pro")
+    elif project == g_clairview_nvr:
+        list_items.append(run_exepath + "\\" + "Clairview NVR")
+    elif project == g_clairview_cms:
+        list_items.append(run_exepath + "\\" + "ClairviewCMS")
+    else:
+        return list_items
 
     return list_items
 
@@ -155,8 +185,8 @@ def makeFileName(prefix):
 ################################################################################
 # def collectFileToZipfile(run_exepath, output_file_name):
 ################################################################################
-def collectFileToZipfile(run_exepath, run_workpath, output_file_name):
-    list_items = loadItemfromXmlfile(run_exepath, run_workpath)
+def collectFileToZipfile(run_exepath, output_file_name):
+    list_items = loadItemfromXmlfile(run_exepath)
 
 #    is_check    = checkFolder(target_path, list_items)
 #    if (False == is_check):
@@ -187,6 +217,46 @@ def collectFileToZipfile(run_exepath, run_workpath, output_file_name):
     else:
         return False
 
+################################################################################
+# def collectFileToZipfileByProject(run_exepath, output_file_name, project):
+################################################################################
+def collectFileToZipfileByProject(run_exepath, output_file_name, project):
+    list_items = loadItemfromProject(run_exepath, project)
+
+#    is_check    = checkFolder(target_path, list_items)
+#    if (False == is_check):
+#        print("Don't search folder, please check folder")
+#        return
+    print("ZipFile Infor : " + output_file_name)
+    f = zipfile.ZipFile(output_file_name, 'w', zipfile.ZIP_DEFLATED, True)
+
+    nCnt = 0
+    nCntCheck = len(list_items)
+    if 0 == nCntCheck:
+        print("Load Item : " + nCnt)
+        return False
+
+    bAddFile = False
+    for item_log_folder in list_items:
+        start_dir = item_log_folder
+        start_dir += "\\"
+        for dir_path, dir_name, list_file_names in os.walk(start_dir):
+            for file_name in list_file_names:
+                f.write(os.path.join(dir_path, file_name))
+                bAddFile = True
+                print("Add File Infor : " + dir_path + file_name)
+        nCnt += 1
+    f.close()
+
+    if nCntCheck == nCnt:
+        if True == bAddFile:
+            return True
+        else:
+            return False
+    else:
+        return False
+
+
 
 ################################################################################
 # def main():
@@ -206,6 +276,20 @@ def main():
         os.system("pause")
         return
 
+    project = 0;
+    project = input("Select project? (1:VMS, 2:NVR, 3:CMS)")
+    if project == g_clairview_vms:
+        print("Selected project : VMS")
+    elif project == g_clairview_nvr:
+        print("Selected project : NVR")
+    elif project == g_clairview_cms:
+        print("Selected project : CMS")
+    else:
+        print("Didn't select project")
+        print("Check project path")
+        os.system("pause")
+        return
+
     print("Start to collect logfiles +++++ [START]")
 
     userhome     = os.path.expanduser('~')
@@ -218,7 +302,7 @@ def main():
     run_workpath = os.getcwd()
 
     #if False == checkWorkPath(run_exepath):
-    if False == checkProjectPath(run_exepath):
+    if False == checkProjectPath(project, run_exepath):
         print("[Error] Execute exe file in Workpath(Install path) :" + run_exepath)
         os.system("pause")
         return
@@ -228,7 +312,7 @@ def main():
     print("Step1 : loadPrefixfromExefile() before")
     print("Step1 : input run_workpath : " + run_exepath)
     #prefix = loadPrefixfromExefile(run_exepath)
-    prefix = loadPrefixfromProject(run_exepath)
+    prefix = loadPrefixfromProject(project, run_exepath)
     print("Step1 : result prefix : " + prefix)
     print("Step1 : loadPrefixfromExefile() after")
 
@@ -245,7 +329,8 @@ def main():
     print("Step3 : input run_exepath : " + run_exepath)
     print("Step3 : input run_workpath : " + run_workpath)
     print("Step3 : input output_file_name : " + output_file_name)
-    if False == collectFileToZipfile(run_exepath, run_workpath, output_file_name):
+    #if False == collectFileToZipfile(run_exepath, output_file_name):
+    if False == collectFileToZipfileByProject(run_exepath, output_file_name, project):
         print("[Error] Collect project log file by folder")
         os.system("pause")
         return
