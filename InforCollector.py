@@ -21,6 +21,7 @@ g_clairview_server     = "\\ClairviewS.exe"
 g_clairview_iserver    = "\\ClairviewISP.exe"
 g_clairview_sclient    = "\\ClairviewSC.exe"
 g_clairview_NVRClient  = "\\NVRClient.exe"
+g_clairview_CMS        = "\\ClairviewCMS.exe"
 
 def subStr(str, start, end):
     return str[start:end+1]
@@ -38,6 +39,8 @@ def checkWorkPath(run_workpath):
     elif True == os.path.isfile(run_workpath + g_clairview_sclient):
         isExist = True
     elif True == os.path.isfile(run_workpath + g_clairview_NVRClient):
+        isExist = True
+    elif True == os.path.isfile(run_workpath + g_clairview_CMS):
         isExist = True
     else:
         isExist = False
@@ -57,6 +60,8 @@ def loadPrefixfromExefile(run_workpath):
         prefix = "[ClairviewVMS]SmartClient"
     elif True == os.path.isfile(run_workpath + g_clairview_NVRClient):
         prefix = "[ClairviewNVR]NVR"
+    elif True == os.path.isfile(run_workpath + g_clairview_CMS):
+        prefix = "[ClairviewNVR]CMS"
     else:
         prefix = "[ClairviewVMS]Clairview"
 
@@ -107,20 +112,40 @@ def collectFileToZipfile(run_exepath, run_workpath, output_file_name):
     print("ZipFile Infor : " + output_file_name)
     f = zipfile.ZipFile(output_file_name, 'w', zipfile.ZIP_DEFLATED, True)
 
+    nCntCheck = len(list_items)
+    nCnt = 0
+    bAddFile = False
     for item_log_folder in list_items:
         start_dir = item_log_folder
         start_dir += "\\"
         for dir_path, dir_name, list_file_names in os.walk(start_dir):
             for file_name in list_file_names:
                 f.write(os.path.join(dir_path, file_name))
+                bAddFile = True
                 print("Add File Infor : " + dir_path + file_name)
+        nCnt += 1
     f.close()
+
+    if nCntCheck == nCnt:
+        if True == bAddFile:
+            return True
+        else:
+            return False
+    else:
+        return False
 
 
 ################################################################################
 # def main():
 ################################################################################
 def main():
+
+    bYes = input("Do you want to collect project log file? (1:Yes, 2:No)")
+    if 1 != bYes:
+        print("Thank you....")
+        os.system("pause")
+        return
+
     print("Start to collect logfiles +++++ [START]")
 
     userhome     = os.path.expanduser('~')
@@ -158,7 +183,12 @@ def main():
     print("Step3 : input run_exepath : " + run_exepath)
     print("Step3 : input run_workpath : " + run_workpath)
     print("Step3 : input output_file_name : " + output_file_name)
-    collectFileToZipfile(run_exepath, run_workpath, output_file_name)
+    if False == collectFileToZipfile(run_exepath, run_workpath, output_file_name):
+        print("[Error] Collect project log file by folder")
+        os.system("pause")
+        return
+    else:
+        print("[Success] Collect project log file by folder")
     print("Step3 : collectFileToZipfile() after")
 
     print("End to collect logfiles ----- [END]")
