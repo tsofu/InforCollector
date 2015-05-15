@@ -1,12 +1,14 @@
 ﻿#-------------------------------------------------------------------------------
-# Name:        module1
+# Name:        CollectorInfor
 # Purpose:
 #
 # Author:      dory
 #
-# Created:     31-10-2013
-# Copyright:   (c) dory 2013
+# Created:     2014-08-10
+# Copyright:   Copyright (c) 2014-2015 dory All rights reserved
 # Licence:     <your licence>
+# Version:     0.8.0
+# Release:     2015-05-15
 #-------------------------------------------------------------------------------
 
 # coding: utf-8
@@ -24,7 +26,6 @@ g_exefile_clairview_sclient    = "\\ClairviewSC.exe"
 g_exefile_clairview_NVRClient  = "\\NVRClient.exe"
 g_exefile_clairview_CMS        = "\\ClairviewCMS.exe"
 
-
 # project path
 g_pro_clairview_server      = "\\Clairview Server"
 g_pro_clairview_iserver     = "\\Clairview Integration Server Professional"
@@ -37,12 +38,15 @@ g_pro_clairview_cms         = "\\ClairviewCMS"
 g_clairview_vms = 1
 g_clairview_nvr = 2
 g_clairview_cms = 3
+g_version       = "0.8.0"
+g_release_date  = "2015-05-15"
 
 
 def subStr(str, start, end):
     return str[start:end+1]
-
 ################################################################################
+
+
 
 ################################################################################
 # def checkWorkPath():
@@ -63,6 +67,7 @@ def checkWorkPath(run_workpath):
         isExist = False
 
     return isExist
+
 
 ################################################################################
 # def checkProjectPath(project, run_workpath):
@@ -115,6 +120,7 @@ def loadPrefixfromExefile(run_workpath):
 
     return prefix
 
+
 ################################################################################
 # def loadPrefixfromProject(project, run_workpath):
 ################################################################################
@@ -146,6 +152,7 @@ def loadItemfromXmlfile(run_exepath):
 
     return list_items
 
+
 ################################################################################
 # def loadItemfromProject(run_exepath, project):
 ################################################################################
@@ -165,13 +172,6 @@ def loadItemfromProject(run_exepath, project):
 
     return list_items
 
-#def checkFolder(target_path, list_folder_name):
-#    is_check = False
-#    for folder_name in list_folder_name:
-#        for dir_path, dir_name, list_file_names in os.walk(folder_name):
-#            is_check = True
-#    return is_check
-
 
 ################################################################################
 # def makeFileName(prefix):
@@ -188,10 +188,6 @@ def makeFileName(prefix):
 def collectFileToZipfile(run_exepath, output_file_name):
     list_items = loadItemfromXmlfile(run_exepath)
 
-#    is_check    = checkFolder(target_path, list_items)
-#    if (False == is_check):
-#        print("Don't search folder, please check folder")
-#        return
     print("ZipFile Infor : " + output_file_name)
     f = zipfile.ZipFile(output_file_name, 'w', zipfile.ZIP_DEFLATED, True)
 
@@ -217,16 +213,13 @@ def collectFileToZipfile(run_exepath, output_file_name):
     else:
         return False
 
+
 ################################################################################
 # def collectFileToZipfileByProject(run_exepath, output_file_name, project):
 ################################################################################
 def collectFileToZipfileByProject(run_exepath, output_file_name, project):
     list_items = loadItemfromProject(run_exepath, project)
 
-#    is_check    = checkFolder(target_path, list_items)
-#    if (False == is_check):
-#        print("Don't search folder, please check folder")
-#        return
     print("ZipFile Infor : " + output_file_name)
     f = zipfile.ZipFile(output_file_name, 'w', zipfile.ZIP_DEFLATED, True)
 
@@ -257,15 +250,14 @@ def collectFileToZipfileByProject(run_exepath, output_file_name, project):
         return False
 
 
-
 ################################################################################
 # def main():
 ################################################################################
 def main():
 
     # program version
-    print("InforCollector Version : 0.7")
-    print("Release Date : 2015.05.12")
+    print("InforCollector Version : " + g_version)
+    print("Release Date : " + g_release_date)
 
     # message
     print("InforCollector run after VMS, NVR, CMS program exit.")
@@ -343,8 +335,8 @@ def main():
     print("Complete to collect logfiles.!!!")
     print("================================================================")
 
-    print("InforCollector Version : 0.7")
-    print("Release Date : 2015.05.12")
+    print("InforCollector Version : " + g_version)
+    print("Release Date : " + g_release_date)
 
     os.system("pause")
 
