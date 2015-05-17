@@ -11,12 +11,15 @@
 # Release:     2015-05-15
 #-------------------------------------------------------------------------------
 
-# coding: utf-8
+#-*- coding: utf-8 -*-
 
 import zipfile
 import time
 import os
 from xml.etree.ElementTree import ElementTree
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 # exefile path
 g_config_file                  = "\\InforCollectorConfig.xml"
@@ -260,16 +263,23 @@ def main():
     print("Release Date : " + g_release_date)
 
     # message
-    print("InforCollector run after VMS, NVR, CMS program exit.")
+#    print("InforCollector run after VMS, NVR, CMS program exit.")
+    print(unicode("실행 중인 프로그램(VMS, NVR, CMS)종료 후 InforCollector를 실행해 주십시오."))
 
-    bYes = input("Do you want to collect project log file? (1:Yes, 2:No)")
+#    bYes = input("Do you want to collect project log file? (1:Yes, 2:No)")
+    print(unicode("[1/2] 프로그램 로그파일 수집을 진행 하시겠습니까? (1:네, 2:아니오)"))
+    print(unicode("해당 번호 선택 후 Enter키를 눌러 주십시오."))
+    bYes = input()
     if 1 != bYes:
         print("Thank you....")
         os.system("pause")
         return
 
     project = 0;
-    project = input("Select project? (1:VMS, 2:NVR, 3:CMS)")
+#    project = input("Select project? (1:VMS, 2:NVR, 3:CMS)")
+    print(unicode("[2/2] 프로그램을 선택해 주십시오? (1:VMS, 2:NVR, 3:CMS)"))
+    print(unicode("해당 번호 선택 후 Enter키를 눌러 주십시오."))
+    project = input()
     if project == g_clairview_vms:
         print("Selected project : VMS")
     elif project == g_clairview_nvr:
@@ -333,6 +343,7 @@ def main():
     print("End to collect logfiles ----- [END]")
     print("================================================================")
     print("Complete to collect logfiles.!!!")
+    print(unicode("로그파일 수집이 완료 되었습니다.!!!"))
     print("================================================================")
 
     print("InforCollector Version : " + g_version)
